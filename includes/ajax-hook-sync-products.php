@@ -1,18 +1,6 @@
 <?php
 
 add_action("wp_ajax_shopify_products_sync", "shopify_products_sync");
-// function shopify_products_sync_test() {
-//     $result['type'] = 'success';
-//     $result['message'] = 'check console for products';
-
-//     $attachment_id = crb_insert_attachment_from_url("https://cdn.shopify.com/s/files/1/0310/2051/5372/products/IMG_20200109_175908.jpg");
-
-//     $result['test'] = $attachment_id;
-
-//     echo json_encode($result);
-//     die();
-
-// }
 
 function shopify_products_sync() {
     // if ( !wp_verify_nonce( $_REQUEST['nonce'], "shopify_products_sync_nonce")) {
