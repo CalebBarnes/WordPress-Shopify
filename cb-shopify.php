@@ -2,7 +2,7 @@
 /**
  * Plugin Name: WP Sync Shopify Products
  * Description: Create posts from Shopify products
- * Version: 0.0.1
+ * Version: 0.0.2
  * Author: Caleb Barnes
  * Author URI: https://github.com/CalebBarnes
  */
