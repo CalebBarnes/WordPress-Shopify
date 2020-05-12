@@ -7,7 +7,7 @@
  * @param  Int    $parent_post_id
  * @return Int    Attachment ID
  */
-function crb_insert_attachment_from_url($url, $parent_post_id = null) {
+function cb_insert_attachment_from_url($url, $parent_post_id = null) {
 
 	if( !class_exists( 'WP_Http' ) )
 		include_once( ABSPATH . WPINC . '/class-http.php' );
