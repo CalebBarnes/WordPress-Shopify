@@ -10,8 +10,9 @@ function attach_new_product_images($images, $post_id) {
         $image_url = strtok($image->node->transformedSrc, '?'); // remove get params from url
         
         $new_filename = basename($image_url);
-        
 
+        // TODO: 
+        
         $attachment_id = cb_insert_attachment_from_url($image_url); // download image, add to media library
         array_push($attachment_ids, $attachment_id);  // collect attachment ids in array
     }

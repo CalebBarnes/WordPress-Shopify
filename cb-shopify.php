@@ -25,7 +25,7 @@ add_action("wp_ajax_sync_shopify_products", "sync_shopify_products");
 // Rest endpoint triggered by shopify webhooks - on products CRUD
 add_action( 'rest_api_init', function () {
   register_rest_route( 'wordpress-shopify/v1', '/sync-products', array(
-    'methods'  => 'POST',
+    'methods'  => 'GET',
     'callback' => 'sync_shopify_products',
   ) );
 } );
