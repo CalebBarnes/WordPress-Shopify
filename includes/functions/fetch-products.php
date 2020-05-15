@@ -3,6 +3,12 @@
         $storefront_access_token = get_field('shopify_storefront_access_token', 'option');
         
         $request = cb_query('{
+              shop {
+                    paymentSettings {
+                        currencyCode
+                        enabledPresentmentCurrencies
+                    }
+                }
                 products(first: 250) {
                     edges {
                         node {

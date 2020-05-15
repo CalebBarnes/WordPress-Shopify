@@ -3,6 +3,17 @@
 function sync_shopify_products() {
 
     $shopify_response = cb_fetch_products();
+    $shopify_payment_settings = json_decode(wp_remote_retrieve_body($shopify_response))->data->shop->paymentSettings;
+
+
+    $enabled_currencies = [];
+    // check enabled currencies
+    foreach ($shopify_payment_settings->enabledPresentmentCurrencies as $enabled_currency ) {
+        array_push($enabled_currencies, ['currency_code' => $enabled_currency]);
+    }
+
+    update_field('enabled_currencies', $enabled_currencies, 'option');
+
     $shopify_products = json_decode(wp_remote_retrieve_body($shopify_response))->data->products->edges;
 
     $result['products'] = $shopify_products;
@@ -71,14 +82,6 @@ function sync_shopify_products() {
                 'available_for_sale' => $variant->availableForSale,
                 'presentment_prices' => $presentment_prices,
             ));
-            
-            // array_push($variants, array(
-            //     'field_5ebdf28ce294e' => $variant->id,
-            //     'field_5ebdf3cbe294f' => $variant->title,
-            //     'field_5ebdf75ae2954' => $variant->priceV2->amount,
-            //     'field_5ebdf762e2955' => $variant->priceV2->currencyCode,
-            //     'field_5ebdf78fe2957' => $variant->compareAtPriceV2->amount
-            // ));
 
         }
 
