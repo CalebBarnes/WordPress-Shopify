@@ -26,10 +26,37 @@
                             currencyCode
                             }
                         }
-                        images(first: 100) {
+                        images(first: 250) {
                             edges {
                                 node {
                                     transformedSrc
+                                }
+                            }
+                        }
+                        variants(first:250){
+                            edges {
+                                node {
+                                title
+                                id
+                                compareAtPriceV2 {
+                                        amount
+                                        currencyCode
+                                    }
+                                availableForSale
+                                priceV2 {
+                                    amount
+                                    currencyCode
+                                }
+                                presentmentPrices(first:250) {
+                                    edges {
+                                        node {
+                                            price {
+                                            amount
+                                            currencyCode
+                                            }
+                                        }
+                                    }
+                                }
                                 }
                             }
                         }

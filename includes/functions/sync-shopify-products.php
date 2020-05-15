@@ -7,27 +7,12 @@ function sync_shopify_products() {
 
     $result['products'] = $shopify_products;
     
+    $new_downloaded_images = [];
     $shopify_ids = []; 
     foreach ($shopify_products as $product) {
         $product = $product->node;
 
         array_push($shopify_ids, $product->id); // store shopify id 
-
-        // search posts to prevent creating duplicate posts of same product
-        $search = get_posts(array(
-            'numberposts'	=> -1,
-            'post_type'		=> 'product',
-            'meta_key'		=> 'shopify_id',
-            'meta_value'	=> $product->id
-        ));
-       
-        $post_id;
-
-        if ($search[0] !== null) {
-            //* if product exists in WP already
-            $post_id = $search[0]->ID;
-
-        }
 
         $product_post = [
             'post_title' => $product->title,
@@ -37,9 +22,18 @@ function sync_shopify_products() {
             'post_date' => $product->createdAt,
         ];
 
-        if (isset($post_id)) {
-            $product_post['ID'] = $post_id;
-        }
+        // search posts to prevent creating duplicate posts of same product
+        $search = get_posts(array(
+            'numberposts'	=> -1,
+            'post_type'		=> 'product',
+            'meta_key'		=> 'shopify_id',
+            'meta_value'	=> $product->id
+        ));
+       
+         if ($search[0] !== null) {
+             //* if product exists in WP already
+             $product_post['ID'] = $search[0]->ID;
+         }
 
         $post_id = wp_insert_post($product_post);
 
@@ -50,8 +44,51 @@ function sync_shopify_products() {
         update_field('shopify_online_store_url', $product->onlineStoreUrl, $post_id);
         update_field('shopify_product_type', $product->productType, $post_id);
 
-        attach_new_product_images($product->images->edges, $post_id);
 
+        $variants = [];
+
+        foreach ($product->variants->edges as $variant) {
+            $variant = $variant->node;
+
+            $presentment_prices = [];
+
+            foreach ($variant->presentmentPrices->edges as $presentment_price ) {
+                $presentment_price = $presentment_price->node;
+
+                array_push($presentment_prices, array(
+                    'price' => $presentment_price->price->amount,
+                    'currency_code' => $presentment_price->price->currencyCode,
+                ));
+            }
+
+            
+            array_push($variants, array(
+                'id' => $variant->id,
+                'title' => $variant->title,
+                'price' => $variant->priceV2->amount,
+                'currency_code' => $variant->priceV2->currencyCode,
+                'compare_at_price' => $variant->compareAtPriceV2->amount,
+                'available_for_sale' => $variant->availableForSale,
+                'presentment_prices' => $presentment_prices,
+            ));
+            
+            // array_push($variants, array(
+            //     'field_5ebdf28ce294e' => $variant->id,
+            //     'field_5ebdf3cbe294f' => $variant->title,
+            //     'field_5ebdf75ae2954' => $variant->priceV2->amount,
+            //     'field_5ebdf762e2955' => $variant->priceV2->currencyCode,
+            //     'field_5ebdf78fe2957' => $variant->compareAtPriceV2->amount
+            // ));
+
+        }
+
+        update_field('field_5ebdf27de294d', $variants, $post_id);
+
+        $new_images = attach_new_product_images($product->images->edges, $post_id);
+        if ($new_images) {
+            array_push($new_downloaded_images, $new_images);
+        }
+       
     }
 
     $stale_products = cleanup_stale_products($shopify_ids);
@@ -62,8 +99,9 @@ function sync_shopify_products() {
     ]);
 
     $result['wp_products'] = $wp_products;
-    $result['shopify_ids'] = $shopify_ids;
     $result['stale_products'] = $stale_products;
+    $result['shopify_products'] = $shopify_products; 
+    $result['new_images'] = $new_downloaded_images;
     $result['type'] = 'success';
 
     echo json_encode($result);
