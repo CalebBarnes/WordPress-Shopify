@@ -9,7 +9,7 @@
                         enabledPresentmentCurrencies
                     }
                 }
-                products(first: 250) {
+                products(first: 250, sortKey: BEST_SELLING) {
                     edges {
                         node {
                             presentmentPriceRanges(first:250) {

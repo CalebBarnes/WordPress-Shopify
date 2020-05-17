@@ -20,7 +20,10 @@ function sync_shopify_products() {
     
     $new_downloaded_images = [];
     $shopify_ids = []; 
+    
+    $count = sprintf('%04d', 1); 
     foreach ($shopify_products as $product) {
+      
         $product = $product->node;
 
         array_push($shopify_ids, $product->id); // store shopify id 
@@ -50,6 +53,7 @@ function sync_shopify_products() {
 
         //* add shopify data to acf fields
         update_field('shopify_id', $product->id, $post_id);
+        update_field('best_selling_sort_priority', $count, $post_id);
         update_field('shopify_description', $product->descriptionHtml, $post_id);
         update_field('shopify_available_for_sale', $product->availableForSale, $post_id);
         update_field('shopify_online_store_url', $product->onlineStoreUrl, $post_id);
@@ -106,7 +110,7 @@ function sync_shopify_products() {
         // if ($new_images) {
         //     array_push($new_downloaded_images, $new_images);
         // }
-       
+         $count = sprintf('%04d', $count + 1); 
     }
 
     $stale_products = cleanup_stale_products($shopify_ids);
