@@ -50,7 +50,7 @@ function sync_shopify_products() {
 
         //* add shopify data to acf fields
         update_field('shopify_id', $product->id, $post_id);
-        update_field('shopify_description', $product->description, $post_id);
+        update_field('shopify_description', $product->descriptionHtml, $post_id);
         update_field('shopify_available_for_sale', $product->availableForSale, $post_id);
         update_field('shopify_online_store_url', $product->onlineStoreUrl, $post_id);
         update_field('shopify_product_type', $product->productType, $post_id);
