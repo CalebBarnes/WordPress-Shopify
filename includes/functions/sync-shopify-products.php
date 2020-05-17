@@ -68,6 +68,7 @@ function sync_shopify_products() {
 
                 array_push($presentment_prices, array(
                     'price' => $presentment_price->price->amount,
+                    'compare_at_price' => $presentment_price->compareAtPrice->amount,
                     'currency_code' => $presentment_price->price->currencyCode,
                 ));
             }
@@ -87,10 +88,10 @@ function sync_shopify_products() {
 
         update_field('field_5ebdf27de294d', $variants, $post_id);
 
-        $new_images = attach_new_product_images($product->images->edges, $post_id);
-        if ($new_images) {
-            array_push($new_downloaded_images, $new_images);
-        }
+        // $new_images = attach_new_product_images($product->images->edges, $post_id);
+        // if ($new_images) {
+        //     array_push($new_downloaded_images, $new_images);
+        // }
        
     }
 

@@ -57,8 +57,12 @@
                                     edges {
                                         node {
                                             price {
-                                            amount
-                                            currencyCode
+                                                amount
+                                                currencyCode
+                                            }
+                                            compareAtPrice {
+                                                amount
+                                                currencyCode
                                             }
                                         }
                                     }
