@@ -5,6 +5,7 @@ if( function_exists('acf_add_options_sub_page') ) {
         'page_title' => "Shopify Auth Settings",
         'menu_title' => "Shopify Auth Settings",
         'parent_slug' => 'options-general.php',
+        'show_in_graphql' => true,
     ]);
 
 // if( function_exists('acf_add_local_field_group') ):
