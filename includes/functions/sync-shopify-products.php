@@ -55,7 +55,6 @@ function sync_shopify_products() {
         update_field('shopify_online_store_url', $product->onlineStoreUrl, $post_id);
         update_field('shopify_product_type', $product->productType, $post_id);
 
-
         $variants = [];
 
         foreach ($product->variants->edges as $variant) {
@@ -87,6 +86,21 @@ function sync_shopify_products() {
         }
 
         update_field('field_5ebdf27de294d', $variants, $post_id);
+
+
+        $presentment_price_ranges = [];
+
+        foreach ($product->presentmentPriceRanges->edges as $presentmentPriceRange) {
+            $presentmentPriceRange = $presentmentPriceRange->node;
+
+            array_push($presentment_price_ranges, array(
+                'max_variant_price' => $presentmentPriceRange->maxVariantPrice->amount,
+                'min_variant_price' => $presentmentPriceRange->minVariantPrice->amount,
+                'currency_code' => $presentmentPriceRange->maxVariantPrice->currencyCode,
+            ));
+        }
+
+        update_field('presentment_price_ranges', $presentment_price_ranges, $post_id);
 
         // $new_images = attach_new_product_images($product->images->edges, $post_id);
         // if ($new_images) {

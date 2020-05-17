@@ -1,7 +1,7 @@
 <?php
     function cb_fetch_products() {
         $storefront_access_token = get_field('shopify_storefront_access_token', 'option');
-        
+
         $request = cb_query('{
               shop {
                     paymentSettings {
@@ -12,6 +12,20 @@
                 products(first: 250) {
                     edges {
                         node {
+                            presentmentPriceRanges(first:250) {
+                                edges {
+                                    node {
+                                        maxVariantPrice {
+                                            amount
+                                            currencyCode
+                                        }
+                                        minVariantPrice {
+                                            amount
+                                            currencyCode
+                                        }
+                                    }
+                                }
+                            }
                         title
                         description
                         descriptionHtml
