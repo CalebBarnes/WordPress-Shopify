@@ -106,10 +106,10 @@ function sync_shopify_products() {
 
         update_field('presentment_price_ranges', $presentment_price_ranges, $post_id);
 
-        // $new_images = attach_new_product_images($product->images->edges, $post_id);
-        // if ($new_images) {
-        //     array_push($new_downloaded_images, $new_images);
-        // }
+        $new_images = attach_new_product_images($product->images->edges, $post_id);
+        if ($new_images) {
+            array_push($new_downloaded_images, $new_images);
+        }
          $count = sprintf('%04d', $count + 1); 
     }
 
