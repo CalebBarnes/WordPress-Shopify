@@ -1,10 +1,11 @@
 <?php
 
 if( function_exists('acf_add_options_sub_page') ) {
-    acf_add_options_sub_page([
-        'page_title' => "Shopify Auth Settings",
-        'menu_title' => "Shopify Auth Settings",
-        'parent_slug' => 'options-general.php',
+    acf_add_options_page([
+        'page_title' => "Shopify",
+        'menu_title' => "Shopify",
+        'menu_slug'  => "wordpress-shopify-settings",
+        'icon_url'  => get_site_url() . '/wp-content/plugins/cb-shopify/includes/assets/shopify_glyph.svg',
         'show_in_graphql' => true,
     ]);
 
