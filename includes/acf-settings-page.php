@@ -5,7 +5,7 @@ if (function_exists('acf_add_options_page')) {
         'page_title' => "Shopify",
         'menu_title' => "Shopify",
         'menu_slug'  => "wordpress-shopify-settings",
-        'icon_url'  => get_site_url() . '/wp-content/plugins/cb-shopify/includes/assets/shopify_glyph.svg',
+        'icon_url'  => get_site_url() . '/wp-content/plugins/WordPress-Shopify-master/includes/assets/shopify_glyph.svg',
         'show_in_graphql' => true,
     ]);
 
