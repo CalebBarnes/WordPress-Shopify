@@ -47,6 +47,7 @@ function sync_shopify_products() {
          if ($search[0] !== null) {
              //* if product exists in WP already
              $product_post['ID'] = $search[0]->ID;
+             $product_post['post_category'] = $search[0]->post_category;
          }
 
         $post_id = wp_insert_post($product_post);
@@ -106,10 +107,10 @@ function sync_shopify_products() {
 
         update_field('presentment_price_ranges', $presentment_price_ranges, $post_id);
 
-        $new_images = attach_new_product_images($product->images->edges, $post_id);
-        if ($new_images) {
-            array_push($new_downloaded_images, $new_images);
-        }
+        // $new_images = attach_new_product_images($product->images->edges, $post_id);
+        // if ($new_images) {
+        //     array_push($new_downloaded_images, $new_images);
+        // }
          $count = sprintf('%04d', $count + 1); 
     }
 
@@ -129,5 +130,3 @@ function sync_shopify_products() {
     echo json_encode($result);
     die();
 }
-
-?>
