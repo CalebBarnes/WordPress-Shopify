@@ -1,6 +1,9 @@
 <?php
 
-if (function_exists('acf_add_options_page')) {
+add_action('acf/init', 'my_acf_op_init');
+
+function my_acf_op_init() {
+    if (function_exists('acf_add_options_page')) {
     acf_add_options_page([
         'page_title' => "Shopify",
         'menu_title' => "Shopify",
@@ -137,4 +140,6 @@ if (function_exists('acf_add_options_page')) {
         ));
 
     endif;
+}
+
 }
